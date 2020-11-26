@@ -1,3 +1,3 @@
 # Sakila Frontend 🎉
 
-## Web Client is built with HTML, CSS and jQuery.
+## Web Client is built with Boostrap & jQuery.
