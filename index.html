@@ -4,9 +4,10 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Customers</title>
+  <title>Sakila | Customers</title>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css">
   <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.22/css/jquery.dataTables.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
 </head>
 
 <body>
@@ -23,7 +24,7 @@
             <span class="ml-2">Customers</span>
           </div>
           <div>
-            <button class="btn btn-outline-secondary mx-3 border-0" onClick="fetchCustomerList()">
+            <button class="btn btn-outline-secondary mx-3 border-0" id="btnRefreshCustomerList">
               <svg width="2em" height="2em" viewBox="0 0 16 16" class="bi bi-arrow-counterclockwise" fill="currentColor"
                 xmlns="http://www.w3.org/2000/svg">
                 <path fill-rule="evenodd" d="M8 3a5 5 0 1 1-4.546 2.914.5.5 0 0 0-.908-.417A6 6 0 1 0 8 2v1z" />
@@ -31,7 +32,8 @@
                   d="M8 4.466V.534a.25.25 0 0 0-.41-.192L5.23 2.308a.25.25 0 0 0 0 .384l2.36 1.966A.25.25 0 0 0 8 4.466z" />
               </svg>
             </button>
-            <button class="btn btn-primary" data-toggle="modal" data-target="#addCustomerModal">
+            <button class="btn btn-primary shadow" data-toggle="modal" data-target="#addCustomerModal"
+              style="width: 3em; height: 3em; padding: 5px; border-radius: 50%;">
               <svg width="2em" height="2em" viewBox="0 0 16 16" class="bi bi-plus" fill="currentColor"
                 xmlns="http://www.w3.org/2000/svg">
                 <path fill-rule="evenodd"
@@ -43,12 +45,13 @@
         <table class="table table-hover" id="customer-table">
           <thead>
             <tr>
-              <th scope="col" class="text-center" width="150">ID</th>
-              <th scope="col" width="150">First name</th>
-              <th scope="col" width="150">Last name</th>
-              <th scope="col" class="text-center" width="150">Active</th>
+              <th scope="col" class="text-center" width="100">ID</th>
+              <th scope="col" width="100">First name</th>
+              <th scope="col" width="100">Last name</th>
+              <th scope="col" class="text-center" width="100">Active</th>
               <th scope="col">Email</th>
               <th scope="col">Address</th>
+              <th scope="col">Store address</th>
               <th scope="col" width="150"></th>
             </tr>
           </thead>
@@ -71,21 +74,23 @@
           <div class="modal-body">
             <form>
               <div class="form-group row">
-                <label for="addCustomerModal__first-name" class="col-sm-3 col-form-label">First name</label>
-                <div class="col-sm-9">
+                <label for="addCustomerModal__first-name" class="col-sm-4 col-form-label">First name</label>
+                <div class="col-sm-8">
                   <input type="text" class="form-control" id="addCustomerModal__first-name">
+                  <small id="addCustomerModal__first-name-help" class="form-text text-danger"></small>
                 </div>
               </div>
               <div class="form-group row">
-                <label for="addCustomerModal__last-name" class="col-sm-3 col-form-label">Last name</label>
-                <div class="col-sm-9">
+                <label for="addCustomerModal__last-name" class="col-sm-4 col-form-label">Last name</label>
+                <div class="col-sm-8">
                   <input type="text" class="form-control" id="addCustomerModal__last-name">
+                  <small id="addCustomerModal__last-name-help" class="form-text text-danger"></small>
                 </div>
               </div>
               <fieldset class="form-group mt-4">
                 <div class="row">
-                  <legend class="col-form-label col-sm-3 pt-0">Active</legend>
-                  <div class="col-sm-9 d-flex">
+                  <legend class="col-form-label col-sm-4 pt-0">Active</legend>
+                  <div class="col-sm-8 d-flex">
                     <div class="form-check mr-4">
                       <input class="form-check-input" type="radio" name="addCustomerModal__active-radios"
                         id="addCustomerModal__active--yes" value="1" checked>
@@ -104,16 +109,24 @@
                 </div>
               </fieldset>
               <div class="form-group row">
-                <label for="addCustomerModal__email" class="col-sm-3 col-form-label">Email</label>
-                <div class="col-sm-9">
+                <label for="addCustomerModal__email" class="col-sm-4 col-form-label">Email</label>
+                <div class="col-sm-8">
                   <input type="email" class="form-control" id="addCustomerModal__email" aria-describedby="emailHelp"
                     placeholder="name@sakilacustomer.org">
+                  <small id="addCustomerModal__email-help" class="form-text text-danger"></small>
                 </div>
               </div>
               <div class="form-group row">
-                <label for="addCustomerModal__address" class="col-sm-3 col-form-label">Address</label>
-                <div class="col-sm-9">
+                <label for="addCustomerModal__address" class="col-sm-4 col-form-label">Address</label>
+                <div class="col-sm-8">
                   <select id="addCustomerModal__address" class="form-control">
+                  </select>
+                </div>
+              </div>
+              <div class="form-group row">
+                <label for="addCustomerModal__store-address" class="col-sm-4 col-form-label">Store Address</label>
+                <div class="col-sm-8">
+                  <select id="addCustomerModal__store-address" class="form-control">
                   </select>
                 </div>
               </div>
@@ -121,8 +134,7 @@
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">No, thanks</button>
-            <button id="addCustomerModal__btnDone" type="button" class="btn btn-primary"
-              data-dismiss="modal">Done</button>
+            <button id="addCustomerModal__btnDone" type="button" class="btn btn-primary">Done</button>
           </div>
         </div>
       </div>
@@ -141,21 +153,23 @@
           <div class="modal-body">
             <form>
               <div class="form-group row">
-                <label for="editCustomerModal__first-name" class="col-sm-3 col-form-label">First name</label>
-                <div class="col-sm-9">
+                <label for="editCustomerModal__first-name" class="col-sm-4 col-form-label">First name</label>
+                <div class="col-sm-8">
                   <input type="text" class="form-control" id="editCustomerModal__first-name">
+                  <small id="editCustomerModal__first-name-help" class="form-text text-danger"></small>
                 </div>
               </div>
               <div class="form-group row">
-                <label for="editCustomerModal__last-name" class="col-sm-3 col-form-label">Last name</label>
-                <div class="col-sm-9">
+                <label for="editCustomerModal__last-name" class="col-sm-4 col-form-label">Last name</label>
+                <div class="col-sm-8">
                   <input type="text" class="form-control" id="editCustomerModal__last-name">
+                  <small id="editCustomerModal__last-name-help" class="form-text text-danger"></small>
                 </div>
               </div>
               <fieldset class="form-group mt-4">
                 <div class="row">
-                  <legend class="col-form-label col-sm-3 pt-0">Active</legend>
-                  <div class="col-sm-9 d-flex">
+                  <legend class="col-form-label col-sm-4 pt-0">Active</legend>
+                  <div class="col-sm-8 d-flex">
                     <div class="form-check mr-4">
                       <input class="form-check-input" type="radio" name="editCustomerModal__active-radios"
                         id="editCustomerModal__active--yes" value="1">
@@ -174,15 +188,23 @@
                 </div>
               </fieldset>
               <div class="form-group row">
-                <label for="editCustomerModal__email" class="col-sm-3 col-form-label">Email</label>
-                <div class="col-sm-9">
+                <label for="editCustomerModal__email" class="col-sm-4 col-form-label">Email</label>
+                <div class="col-sm-8">
                   <input type="email" class="form-control" id="editCustomerModal__email" aria-describedby="emailHelp">
+                  <small id="editCustomerModal__email-help" class="form-text text-danger"></small>
                 </div>
               </div>
               <div class="form-group row">
-                <label for="editCustomerModal__address" class="col-sm-3 col-form-label">Address</label>
-                <div class="col-sm-9">
+                <label for="editCustomerModal__address" class="col-sm-4 col-form-label">Address</label>
+                <div class="col-sm-8">
                   <select id="editCustomerModal__address" class="form-control">
+                  </select>
+                </div>
+              </div>
+              <div class="form-group row">
+                <label for="editCustomerModal__store-address" class="col-sm-4 col-form-label">Store address</label>
+                <div class="col-sm-8">
+                  <select id="editCustomerModal__store-address" class="form-control">
                   </select>
                 </div>
               </div>
@@ -190,8 +212,7 @@
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">No, thanks</button>
-            <button id="editCustomerModal__btnSave" type="button" class="btn btn-primary"
-              data-dismiss="modal">Save</button>
+            <button id="editCustomerModal__btnSave" type="button" class="btn btn-primary">Save</button>
           </div>
         </div>
       </div>
@@ -213,8 +234,7 @@
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">No, thanks</button>
-            <button id="removeCustomerConfirmModal__btnYes" type="button" class="btn btn-danger"
-              data-dismiss="modal">Yes</button>
+            <button id="removeCustomerConfirmModal__btnYes" type="button" class="btn btn-danger">Yes</button>
           </div>
         </div>
       </div>
@@ -227,12 +247,33 @@
     <script>
       $(document).ready(() => {
         let selectedCustomer = null;
+        let addressList = [];
+        let storeList = [];
         const hostApiURL = 'http://localhost:3000/api';
         const custonmerApiURL = `${hostApiURL}/customers`;
         const addressApiURL = `${hostApiURL}/addresses`;
+        const storeApiURL = `${hostApiURL}/stores`;
+        const messageTemplate = `<div class="alert alert-MESSAGE_TYPE alert-dismissible fade show fixed-bottom animate__animated animate__bounceInLeft"
+      role="alert" style="width: 400px;">
+      <p><b>MESSAGE_TEXT</b></p>
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>`;
+
+        const showMessage = (messageType, messageText, delay) => {
+          let message = messageTemplate;
+          message = $(message.replace('MESSAGE_TYPE', messageType).replace('MESSAGE_TEXT', messageText))
+          $('body').append(message);
+          setTimeout(() => {
+            message.alert('close');
+          }, delay);
+        }
 
         const loadCustomterDataTable = () => {
-          $('#customer-table').DataTable();
+          $('#customer-table').DataTable({
+            "order": []
+          });
         }
 
         const clearCustomerList = () => {
@@ -243,12 +284,29 @@
           $('#customer-table').DataTable().destroy();
         }
 
+        const fetchStoreList = () => {
+          $.ajax({
+            url: storeApiURL,
+            type: 'GET'
+          }).done(res => {
+            storeList = res.data.stores;
+            for (const store of storeList) {
+              const option1 = $(`<option value="${store.address_id}">${store.address}</option>`);
+              const option2 = $(`<option value="${store.address_id}">${store.address}</option>`);
+              $('#addCustomerModal__store-address').append(option1);
+              $('#editCustomerModal__store-address').append(option2);
+            }
+
+            fetchCustomerList();
+          })
+        }
+
         const fetchAddressList = () => {
           $.ajax({
             url: addressApiURL,
             type: 'GET'
           }).done(res => {
-            const addressList = res.data.addresses;
+            addressList = res.data.addresses;
             for (const address of addressList) {
               const option1 = $(`<option value="${address.address_id}">${address.address}</option>`);
               const option2 = $(`<option value="${address.address_id}">${address.address}</option>`);
@@ -256,7 +314,7 @@
               $('#editCustomerModal__address').append(option2);
             }
 
-            fetchCustomerList();
+            fetchStoreList();
           })
         }
 
@@ -284,6 +342,7 @@
 </svg>`}</td>
               <td>${customer.email}</td>
               <td>${customer.address}</td>
+              <td>${customer.store_address}</td>
             </tr>`);
 
               const col = $(`<td></td>`);
@@ -300,6 +359,7 @@
                 $(`input:radio[name=editCustomerModal__active-radios][value=${customer.active}]`).prop('checked', true);
                 $('#editCustomerModal__email').val(customer.email);
                 $('#editCustomerModal__address').val(customer.address_id);
+                $('#editCustomerModal__store-address').val(customer.store_address_id);
               });
 
               const btnOpenRemoveCustomerConfirmModal = $(`<button class="btn btn-outline-secondary border-0" data-toggle="modal" data-target="#removeCustomerConfirmModal">
@@ -320,8 +380,75 @@
           })
         }
 
-        $('#removeCustomerConfirmModal__btnYes').on('click', () => {
+        $('#addCustomerModal__first-name').on('keyup', e => {
+          const { value } = e.target;
+          $('#addCustomerModal__first-name-help').html(value ? '' : 'First name is required.');
+        })
 
+        $('#addCustomerModal__last-name').on('keyup', e => {
+          const { value } = e.target;
+          $('#addCustomerModal__last-name-help').html(value ? '' : 'Last name is required.');
+        })
+
+        $('#addCustomerModal__email').on('keyup', e => {
+          const { value } = e.target;
+          $('#addCustomerModal__email-help').html(value ? '' : 'Email is required.');
+        })
+
+        $('#editCustomerModal__first-name').on('keyup', e => {
+          const { value } = e.target;
+          $('#editCustomerModal__first-name-help').html(value ? '' : 'First name is required.');
+        })
+
+        $('#editCustomerModal__last-name').on('keyup', e => {
+          const { value } = e.target;
+          $('#editCustomerModal__last-name-help').html(value ? '' : 'Last name is required.');
+        })
+
+        $('#editCustomerModal__email').on('keyup', e => {
+          const { value } = e.target;
+          $('#editCustomerModal__email-help').html(value ? '' : 'Email is required.');
+        })
+
+        $('#btnRefreshCustomerList').on('click', () => fetchCustomerList());
+
+        $('#addCustomerModal__btnDone').on('click', () => {
+          const data = {
+            first_name: $('#addCustomerModal__first-name').val(),
+            last_name: $('#addCustomerModal__last-name').val(),
+            active: $(`input:radio[name=addCustomerModal__active-radios]:checked`).val(),
+            email: $('#addCustomerModal__email').val(),
+            address_id: $('#addCustomerModal__address').val(),
+            store_id: storeList.find(store => store.address_id === $('#addCustomerModal__store-address').val())
+          };
+
+          if (!data.first_name || !data.last_name || !data.email) {
+            if (!data.first_name)
+              $('#addCustomerModal__first-name-help').html('First name is required.');
+
+            if (!data.last_name)
+              $('#addCustomerModal__last-name-help').html('Last name is required.');
+
+            if (!data.email)
+              $('#addCustomerModal__email-help').html('Email is required.');
+
+            return;
+          }
+
+          $.ajax({
+            url: custonmerApiURL,
+            type: 'POST',
+            data
+          }).done(res => {
+            const { messages } = res;
+
+            $('#addCustomerModal__first-name').val('');
+            $('#addCustomerModal__last-name').val('');
+            $('#addCustomerModal__email').val('');
+            $('#addCustomerModal').modal('hide');
+            fetchCustomerList();
+            showMessage('success', messages[0], 2000);
+          })
         })
 
         $('#editCustomerModal__btnSave').on('click', () => {
@@ -330,24 +457,32 @@
             last_name: $('#editCustomerModal__last-name').val(),
             active: $(`input:radio[name=editCustomerModal__active-radios]:checked`).val(),
             email: $('#editCustomerModal__email').val(),
-            address_id: $('#editCustomerModal__address').val()
+            address_id: $('#editCustomerModal__address').val(),
+            store_id: storeList.find(store => store.address_id === Number($('#editCustomerModal__store-address').val())).store_id
           };
 
           console.log(data);
+
+          $('#editCustomerModal').modal('hide');
         })
 
-        $('#addCustomerModal__btnDone').on('click', () => {
-          const data = {
-            first_name: $('#addCustomerModal__first-name').val(),
-            last_name: $('#addCustomerModal__last-name').val(),
-            active: $(`input:radio[name=addCustomerModal__active-radios]:checked`).val(),
-            email: $('#addCustomerModal__email').val(),
-            address_id: $('#addCustomerModal__address').val()
-          };
-
-          console.log(data);
+        $('#removeCustomerConfirmModal__btnYes').on('click', () => {
+          $.ajax({
+            url: `${custonmerApiURL}/${selectedCustomer.customer_id}`,
+            type: 'DELETE'
+          })
+            .done(res => {
+              showMessage('success', res.messages[0], 4000);
+              $('#removeCustomerConfirmModal').modal('hide');
+              fetchCustomerList();
+            })
+            .fail(res => {
+              showMessage('danger', res.responseJSON.error_messages[0], 4000);
+              $('#removeCustomerConfirmModal').modal('hide');
+            })
         })
 
+        // ---------------- Main ----------------
         fetchAddressList();
       });
     </script>
