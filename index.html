@@ -145,7 +145,7 @@
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">Edit customer profile</h5>
+            <h5 class="modal-title" id="exampleModalLabel">Edit customer</h5>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>
@@ -253,13 +253,14 @@
         const custonmerApiURL = `${hostApiURL}/customers`;
         const addressApiURL = `${hostApiURL}/addresses`;
         const storeApiURL = `${hostApiURL}/stores`;
-        const messageTemplate = `<div class="alert alert-MESSAGE_TYPE alert-dismissible fade show fixed-bottom animate__animated animate__bounceInLeft"
-      role="alert" style="width: 400px;">
-      <p><b>MESSAGE_TEXT</b></p>
-      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-        <span aria-hidden="true">&times;</span>
-      </button>
-    </div>`;
+        const messageTemplate = `
+          <div class="alert alert-MESSAGE_TYPE alert-dismissible fade show fixed-bottom animate__animated animate__bounceInLeft"
+        role="alert" style="width: 400px;">
+            <p><b>MESSAGE_TEXT</b></p>
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>`;
 
         const showMessage = (messageType, messageText, delay) => {
           let message = messageTemplate;
@@ -336,10 +337,10 @@
               <td >${customer.first_name}</td>
               <td>${customer.last_name}</td>
               <td class="text-center">${customer.active ? `<svg width="3em" height="3em" viewBox="0 0 16 16" class="bi bi-dot" fill="#44b543" xmlns="http://www.w3.org/2000/svg">
-  <path fill-rule="evenodd" d="M8 9.5a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3z"/>
-</svg>` : `<svg width="3em" height="3em" viewBox="0 0 16 16" class="bi bi-dot" fill="silver" xmlns="http://www.w3.org/2000/svg">
-  <path fill-rule="evenodd" d="M8 9.5a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3z"/>
-</svg>`}</td>
+                <path fill-rule="evenodd" d="M8 9.5a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3z"/>
+              </svg>` : `<svg width="3em" height="3em" viewBox="0 0 16 16" class="bi bi-dot" fill="silver" xmlns="http://www.w3.org/2000/svg">
+                <path fill-rule="evenodd" d="M8 9.5a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3z"/>
+              </svg>`}</td>
               <td>${customer.email}</td>
               <td>${customer.address}</td>
               <td>${customer.store_address}</td>
@@ -347,10 +348,11 @@
 
               const col = $(`<td></td>`);
 
-              const btnOpenEditCustomerModal = $(`<button class="btn btn-outline-secondary border-0" data-toggle="modal" data-target="#editCustomerModal">
+              const btnOpenEditCustomerModal = $(`
+                <button class="btn btn-outline-secondary border-0" data-toggle="modal" data-target="#editCustomerModal">
                   <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-pen-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-  <path fill-rule="evenodd" d="M13.498.795l.149-.149a1.207 1.207 0 1 1 1.707 1.708l-.149.148a1.5 1.5 0 0 1-.059 2.059L4.854 14.854a.5.5 0 0 1-.233.131l-4 1a.5.5 0 0 1-.606-.606l1-4a.5.5 0 0 1 .131-.232l9.642-9.642a.5.5 0 0 0-.642.056L6.854 4.854a.5.5 0 1 1-.708-.708L9.44.854A1.5 1.5 0 0 1 11.5.796a1.5 1.5 0 0 1 1.998-.001z"/>
-</svg>
+                    <path fill-rule="evenodd" d="M13.498.795l.149-.149a1.207 1.207 0 1 1 1.707 1.708l-.149.148a1.5 1.5 0 0 1-.059 2.059L4.854 14.854a.5.5 0 0 1-.233.131l-4 1a.5.5 0 0 1-.606-.606l1-4a.5.5 0 0 1 .131-.232l9.642-9.642a.5.5 0 0 0-.642.056L6.854 4.854a.5.5 0 1 1-.708-.708L9.44.854A1.5 1.5 0 0 1 11.5.796a1.5 1.5 0 0 1 1.998-.001z"/>
+                  </svg>
                 </button>`);
               btnOpenEditCustomerModal.on('click', () => {
                 selectedCustomer = customer;
@@ -362,10 +364,11 @@
                 $('#editCustomerModal__store-address').val(customer.store_address_id);
               });
 
-              const btnOpenRemoveCustomerConfirmModal = $(`<button class="btn btn-outline-secondary border-0" data-toggle="modal" data-target="#removeCustomerConfirmModal">
+              const btnOpenRemoveCustomerConfirmModal = $(`
+                <button class="btn btn-outline-secondary border-0" data-toggle="modal" data-target="#removeCustomerConfirmModal">
                   <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-trash-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-  <path fill-rule="evenodd" d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5a.5.5 0 0 0-1 0v7a.5.5 0 0 0 1 0v-7z"/>
-</svg>
+                    <path fill-rule="evenodd" d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5a.5.5 0 0 0-1 0v7a.5.5 0 0 0 1 0v-7z"/>
+                  </svg>
                 </button>`);
               btnOpenRemoveCustomerConfirmModal.on('click', () => {
                 selectedCustomer = customer;
@@ -377,6 +380,7 @@
             }
 
             loadCustomterDataTable();
+            showMessage('success', 'Get customer list successfully 🎉', 4000);
           })
         }
 
@@ -419,7 +423,7 @@
             active: $(`input:radio[name=addCustomerModal__active-radios]:checked`).val(),
             email: $('#addCustomerModal__email').val(),
             address_id: $('#addCustomerModal__address').val(),
-            store_id: storeList.find(store => store.address_id === $('#addCustomerModal__store-address').val())
+            store_id: storeList.find(store => store.address_id === Number($('#addCustomerModal__store-address').val())).store_id
           };
 
           if (!data.first_name || !data.last_name || !data.email) {
@@ -438,17 +442,21 @@
           $.ajax({
             url: custonmerApiURL,
             type: 'POST',
-            data
-          }).done(res => {
-            const { messages } = res;
-
-            $('#addCustomerModal__first-name').val('');
-            $('#addCustomerModal__last-name').val('');
-            $('#addCustomerModal__email').val('');
-            $('#addCustomerModal').modal('hide');
-            fetchCustomerList();
-            showMessage('success', messages[0], 2000);
+            contentType: "application/json",
+            data: JSON.stringify(data)
           })
+            .done(res => {
+              fetchCustomerList();
+              $('#addCustomerModal').modal('hide');
+              $('#addCustomerModal__first-name').val('');
+              $('#addCustomerModal__last-name').val('');
+              $('#addCustomerModal__email').val('');
+              showMessage('success', res.messages[0], 4000);
+            })
+            .fail(res => {
+              $('#addCustomerModal').modal('hide');
+              showMessage('danger', res.responseJSON.error_messages[0], 4000);
+            })
         })
 
         $('#editCustomerModal__btnSave').on('click', () => {
@@ -461,9 +469,37 @@
             store_id: storeList.find(store => store.address_id === Number($('#editCustomerModal__store-address').val())).store_id
           };
 
-          console.log(data);
+          if (!data.first_name || !data.last_name || !data.email) {
+            if (!data.first_name)
+              $('#editCustomerModal__first-name-help').html('First name is required.');
 
-          $('#editCustomerModal').modal('hide');
+            if (!data.last_name)
+              $('#editCustomerModal__last-name-help').html('Last name is required.');
+
+            if (!data.email)
+              $('#editCustomerModal__email-help').html('Email is required.');
+
+            return;
+          }
+
+          $.ajax({
+            url: `${custonmerApiURL}/${selectedCustomer.customer_id}`,
+            type: 'PUT',
+            contentType: "application/json",
+            data: JSON.stringify(data)
+          })
+            .done(res => {
+              fetchCustomerList();
+              $('#editCustomerModal').modal('hide');
+              $('#editCustomerModal__first-name').val('');
+              $('#editCustomerModal__last-name').val('');
+              $('#editCustomerModal__email').val('');
+              showMessage('success', res.messages[0], 4000);
+            })
+            .fail(res => {
+              $('#editCustomerModal').modal('hide');
+              showMessage('danger', res.responseJSON.error_messages[0], 4000);
+            })
         })
 
         $('#removeCustomerConfirmModal__btnYes').on('click', () => {
@@ -472,13 +508,13 @@
             type: 'DELETE'
           })
             .done(res => {
-              showMessage('success', res.messages[0], 4000);
-              $('#removeCustomerConfirmModal').modal('hide');
               fetchCustomerList();
+              $('#removeCustomerConfirmModal').modal('hide');
+              showMessage('success', res.messages[0], 4000);
             })
             .fail(res => {
-              showMessage('danger', res.responseJSON.error_messages[0], 4000);
               $('#removeCustomerConfirmModal').modal('hide');
+              showMessage('danger', res.responseJSON.error_messages[0], 4000);
             })
         })
 
