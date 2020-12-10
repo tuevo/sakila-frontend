@@ -507,6 +507,7 @@
         $('#btnSignOut').on('click', e => {
           localStorage.removeItem(accessTokenLocalStorageName);
           localStorage.removeItem(refreshTokenLocalStorageName);
+          localStorage.removeItem(authUserLocalStorageName);
           window.location = '/index.html';
         })
 
